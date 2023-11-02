@@ -9,12 +9,12 @@ const app: Express = express();
 dotenv.config({path: "./.env"}); 
 
 // TEST
-const age: number = 15;
+const age: number = 20;
 
 
 const prisma = new PrismaClient()
 
-async function main() {
+// async function main() {
   // ... you will write your Prisma Client queries here
   // await prisma.user.create({
   //   data: {
@@ -29,30 +29,30 @@ async function main() {
   //   },
   // })
 
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-      profile: true,
-    },
-  })
-  console.dir(allUsers, { depth: null })
+  // const allUsers = await prisma.user.findMany({
+  //   include: {
+  //     posts: true,
+  //     profile: true,
+  //   },
+  // })
+  // console.dir(allUsers, { depth: null })
 
   // const post = await prisma.post.update({
   //   where: { id: 1 },
   //   data: { published: true },
   // })
   // console.log(post)
-}
+// }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+// main()
+//   .then(async () => {
+//     await prisma.$disconnect()
+//   })
+//   .catch(async (e) => {
+//     console.error(e)
+//     await prisma.$disconnect()
+//     process.exit(1)
+//   })
 
 // USING MIDDLEWARE
 app.use(express.json());

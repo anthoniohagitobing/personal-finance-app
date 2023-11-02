@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
-    "deploy": "npm install && npx tsc"
+    "deploy": "npm install && npx prisma init && npx tsc"
   },
   "author": "",
   "license": "ISC",

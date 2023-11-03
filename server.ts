@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 
 // IMPORTING DATABASE CONTROLLER
+import accountController from "./src/user/user-controller";
 
 // CONFIGURE MODULES
 const app: Express = express();
@@ -21,6 +22,8 @@ const age: number = 20;
 app.get('/', (req: Request, res: Response) => {
   res.send(`Express + TypeScript Server + test1: ${age}`);
 });
+
+app.get('/user', accountController.getUser);
 
 // INITIATE SERVER
 const PORT: string = process.env.PORT || "8000";

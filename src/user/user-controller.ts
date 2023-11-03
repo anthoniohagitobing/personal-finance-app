@@ -1,43 +1,36 @@
 import { PrismaClient } from '@prisma/client';
+import express, { Express, Request, Response } from "express";
+import userModel from "./user-model";
 
 const prisma = new PrismaClient()
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  await prisma.user.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
-      posts: {
-        create: { title: 'Hello World' },
-      },
-      profile: {
-        create: { bio: 'I like turtles' },
-      },
-    },
-  })
+export default {
+  async getUser(req: Request, res: Response): Promise<any> {
+    try {
+      const data = await userModel.getUser()
+        .then(async (res) => {
+          await prisma.$disconnect();
+          // console.log(res);
+          return res;
+        })
+        .catch(async (err) => {
+          // console.error(e)
+          await prisma.$disconnect();
+          process.exit(1);
+          return err;
+        });
 
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-      profile: true,
-    },
-  })
-  console.dir(allUsers, { depth: null })
+      res.status(200).send(data);
+    } catch {
+      res.status(401).send("Invalid Username or Password");
+    }
+  }
+};
 
-  const post = await prisma.post.update({
-    where: { id: 1 },
-    data: { published: true },
-  })
-  console.log(post)
-}
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+
+
+
+
+
+

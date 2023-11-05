@@ -5,9 +5,10 @@ import userModel from "./user-model";
 const prisma = new PrismaClient()
 
 export default {
-  async getUser(req: Request, res: Response): Promise<any> {
+  async getUser(req: Request, res: Response): Promise<void> {
     try {
-      const data = await userModel.getUser()
+      const email: string = req.params.email
+      const data = await userModel.getUser(email)
         .then(async (res) => {
           await prisma.$disconnect();
           // console.log(res);
@@ -17,12 +18,38 @@ export default {
           // console.error(e)
           await prisma.$disconnect();
           process.exit(1);
-          return err;
         });
 
-      res.status(200).send(data);
+      res.status(200).send(JSON.stringify(data));
     } catch {
-      res.status(401).send("Invalid Username or Password");
+      res.status(500).send("Failed to get user");
+    }
+  },
+
+  async registerUser(req: Request, res: Response): Promise<void> {
+    try {
+      interface user {
+        email: string,
+        firstName: string,
+        lastName: string,
+      }
+
+      const { email, firstName, lastName }: user = req.body;
+
+      userModel.registerUser(email, firstName, lastName)
+        .then(async (res) => {
+          await prisma.$disconnect();
+          // console.log(res);
+        })
+        .catch(async (err) => {
+          // console.error(e)
+          await prisma.$disconnect();
+          process.exit(1);
+        });
+
+      res.status(201).send("Account created in backend database");
+    } catch {
+      res.status(401).send("Cannot register new user");
     }
   }
 };

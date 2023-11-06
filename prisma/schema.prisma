@@ -22,7 +22,7 @@ model Account {
   id                        Int                   @id @default(autoincrement())
   accountName               String                @db.VarChar(255)
   currency                  String                @db.VarChar(5)
-  type                      String                @db.VarChar(25)
+  accountType               String                @db.VarChar(25)
   note                      String?
   user                      User                  @relation(fields: [userId], references: [id])
   userId                    Int

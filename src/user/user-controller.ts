@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import express, { Express, Request, Response } from "express";
 import userModel from "./user-model";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export default {
   async getUser(req: Request, res: Response): Promise<void> {
@@ -26,7 +26,7 @@ export default {
     }
   },
 
-  async registerUser(req: Request, res: Response): Promise<void> {
+  async createUser(req: Request, res: Response): Promise<void> {
     try {
       interface user {
         email: string,
@@ -36,7 +36,7 @@ export default {
 
       const { email, firstName, lastName }: user = req.body;
 
-      userModel.registerUser(email, firstName, lastName)
+      userModel.createUser(email, firstName, lastName)
         .then(async (res) => {
           await prisma.$disconnect();
           // console.log(res);
@@ -47,7 +47,7 @@ export default {
           process.exit(1);
         });
 
-      res.status(201).send("Account created in backend database");
+      res.status(201).send("User created in backend database");
     } catch {
       res.status(401).send("Cannot register new user");
     }

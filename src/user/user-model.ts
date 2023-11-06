@@ -16,7 +16,7 @@ export default {
     });
   },
 
-  async registerUser(email: string, firstName: string, lastName: string) {
+  async createUser(email: string, firstName: string, lastName: string) {
     return await prisma.user.create({
       data: {
         email: email,

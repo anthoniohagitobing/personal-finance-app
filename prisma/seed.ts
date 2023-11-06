@@ -36,7 +36,7 @@ async function main() {
         id: 1,
         accountName: 'cash account',
         currency: 'yen',
-        type: 'cash',
+        accountType: 'cash',
         note: 'testcash',
         userId: 1
       },
@@ -44,7 +44,7 @@ async function main() {
         id: 2,
         accountName: 'bank account',
         currency: 'yen',
-        type: 'bank',
+        accountType: 'bank',
         note: 'testbank',
         userId: 1
       }

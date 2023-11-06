@@ -36,7 +36,16 @@ app.post('/user', userController.createUser);
   // ex: {"email": "testemail", "firstName": "firstname", "lastName": "lastname"}
 
 // Account
+app.get('/account/:userId', accountController.getAllAccount);
+  // to access: http://localhost:8080/account/1
+  // this has parameter "userId" that must be specified
+  // this will return all account belonging to an account
+  // will return an array of objects containing the account id, account name, currency, account type
+  // ex: {"id":31,"email":"client1@gmail.com","firstName":"firstname123","lastName":"lastname123"}
 app.post('/account', accountController.createAccount)
+  // to access: http://localhost:8080/account/
+  // body, raw, json
+  // ex: {"userId": 1, "accountName": "accountName", "currency": "currency", "accountType": "accountType", "note": "note"};
 
 // INITIATE SERVER
 const PORT: string = process.env.PORT || "8000";

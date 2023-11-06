@@ -58,8 +58,8 @@ async function main() {
         transactionType: 'income',
         title: 'cash income expense 1',
         dateTime: generateRandomDate(new Date(2023, 9, 1), new Date()),
-        category: 'shopping',
-        inputType: 'global',
+        category: 'Shopping',
+        inputType: 'Global',
         amount: 5000,
       },
       {
@@ -68,8 +68,8 @@ async function main() {
         transactionType: 'income',
         title: 'cash income expense 2',
         dateTime: generateRandomDate(new Date(2023, 9, 1), new Date()),
-        category: 'food',
-        inputType: 'global',
+        category: 'Food & drink',
+        inputType: 'Global',
         amount: 8000,
       },
     ]

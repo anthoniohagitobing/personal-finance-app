@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default {
-  async getAllAccount(userId: number) {
+  async getAllAccounts(userId: number) {
     return await prisma.account.findMany({
       where: {
         userId: userId, 

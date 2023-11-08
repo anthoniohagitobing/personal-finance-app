@@ -2,14 +2,27 @@ import { PrismaClient } from '@prisma/client';
 import express, { Express, Request, Response } from "express";
 import accountModel from "./account-model";
 
+import recordIncomeExpenseModel from '../record/record-income-expense-model';
+import { Decimal } from '@prisma/client/runtime/library';
+
+import allRecordsController from '../record/all-records-controller';
+
 const prisma = new PrismaClient();
 
 export default {
-  async getAllAccount(req: Request, res: Response): Promise<void> {
+  async getAllAccounts(req: Request, res: Response): Promise<void> {
     try {
+      interface Account {
+        id: number;
+        accountName: string;
+        currency: string;
+        accountType: string;
+        balance?: Decimal | number | null;
+      }
+
       const userId: number = Number(req.params.userId);
       // console.log(userId);
-      const data = await accountModel.getAllAccount(userId)
+      const accounts: Account[] = await accountModel.getAllAccounts(userId)
         .then(async (res) => {
           await prisma.$disconnect();
           // console.log(res);
@@ -20,8 +33,15 @@ export default {
           await prisma.$disconnect();
           process.exit(1);
         });
+      // console.log(accounts);
+      
+      for (const account of accounts) {
+        const balance = await allRecordsController.getBalance(account.id);
+        account["balance"] = balance;
+      }
+      // console.log(accounts);
 
-      res.status(200).send(JSON.stringify(data));
+      res.status(200).send(JSON.stringify(accounts));
     } catch {
       res.status(500).send("Failed to get user");
     }

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import express, { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 import recordIncomeExpenseModel from './record-income-expense-model';
 import { Decimal } from '@prisma/client/runtime/library';
 
@@ -38,21 +38,18 @@ export default {
     }
   },
 
-  async getBalance(req: Request, res: Response): Promise<void> {
-    try {
-      const accountId: number = Number(req.params.accountId);
-      const data = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(accountId)
-        .then(async (res) => {
-          await prisma.$disconnect();
-          return res;
-        })
-        .catch(async (err) => {
-          await prisma.$disconnect();
-          process.exit(1);
-        });
-      res.status(200).send(JSON.stringify(data));
-    } catch {
-      res.status(500).send("Failed to get records");
-    }
-  }
+  async getBalance(accountId: number) {
+    const sumObject = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(accountId)
+      .then(async (res) => {
+        await prisma.$disconnect();
+        return res;
+      })
+      .catch(async (err) => {
+        await prisma.$disconnect();
+        process.exit(1);
+      });
+    // console.log(sumObject);
+    if (sumObject[0]) return sumObject[0]._sum.amount;
+    else return 0;
+  },
 }

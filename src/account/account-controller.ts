@@ -1,8 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import express, { Express, Request, Response } from "express";
 import accountModel from "./account-model";
+
 import recordIncomeExpenseModel from '../record/record-income-expense-model';
 import { Decimal } from '@prisma/client/runtime/library';
+
+import allRecordsController from '../record/all-records-controller';
 
 const prisma = new PrismaClient();
 
@@ -33,20 +36,10 @@ export default {
       // console.log(accounts);
       
       for (const account of accounts) {
-        const sumObject = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(account.id)
-          .then(async (res) => {
-            await prisma.$disconnect();
-            return res;
-          })
-          .catch(async (err) => {
-            await prisma.$disconnect();
-            process.exit(1);
-          });
-        console.log(sumObject);
-        if (sumObject[0]) account["balance"] = sumObject[0]._sum.amount;
-        else account["balance"] = 0;
+        const balance = await allRecordsController.getBalance(account.id);
+        account["balance"] = balance;
       }
-      console.log(accounts);
+      // console.log(accounts);
 
       res.status(200).send(JSON.stringify(accounts));
     } catch {

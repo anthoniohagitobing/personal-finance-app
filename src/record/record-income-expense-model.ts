@@ -21,6 +21,9 @@ export default {
       where: {
         accountId: accountId,
       },
+      orderBy: {
+        dateTime: 'desc',
+      },
       select: {
         accountId: true,
         transactionType: true,

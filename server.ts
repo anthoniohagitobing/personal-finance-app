@@ -17,7 +17,7 @@ dotenv.config({path: "./.env"});
 // USING MIDDLEWARE
 app.use(express.json());
 app.use(cors());
-
+// test update
 
 // ENDPOINTS
 // Test

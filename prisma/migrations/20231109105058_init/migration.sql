@@ -2,8 +2,8 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "first_name" TEXT,
-    "last_name" TEXT,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -11,9 +11,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Account" (
     "id" SERIAL NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "accountName" VARCHAR(255) NOT NULL,
     "currency" VARCHAR(5) NOT NULL,
-    "type" VARCHAR(25) NOT NULL,
+    "accountType" VARCHAR(25) NOT NULL,
     "note" TEXT,
     "userId" INTEGER NOT NULL,
 
@@ -24,6 +24,7 @@ CREATE TABLE "Account" (
 CREATE TABLE "RecordIncomeExpense" (
     "id" SERIAL NOT NULL,
     "accountId" INTEGER NOT NULL,
+    "transactionType" VARCHAR(10) NOT NULL,
     "title" VARCHAR(255) NOT NULL,
     "dateTime" TIMESTAMP(3) NOT NULL,
     "category" VARCHAR(50) NOT NULL,
@@ -40,7 +41,7 @@ CREATE TABLE "RecordMutation" (
     "title" VARCHAR(255) NOT NULL,
     "dateTime" TIMESTAMP(3) NOT NULL,
     "amount" DECIMAL(65,30) NOT NULL,
-    "Note" TEXT,
+    "note" TEXT,
 
     CONSTRAINT "RecordMutation_pkey" PRIMARY KEY ("id")
 );
@@ -50,7 +51,7 @@ CREATE TABLE "RecordTransfer" (
     "id" SERIAL NOT NULL,
     "title" VARCHAR(255) NOT NULL,
     "dateTime" TIMESTAMP(3) NOT NULL,
-    "Note" TEXT,
+    "note" TEXT,
     "sourceAccountId" INTEGER NOT NULL,
     "sourceAmount" DECIMAL(65,30) NOT NULL,
     "destinationAccountId" INTEGER NOT NULL,

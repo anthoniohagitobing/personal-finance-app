@@ -58,6 +58,34 @@ export default {
     return data;
   },
   
+  async updateAccount(accountId: number, accountName: string, currency: string, accountType: string, note: string | undefined) {
+    async function prismaUpdateAccount(accountId: number, accountName: string, currency: string, accountType: string, note: string | undefined) {
+      return await prisma.account.update({
+        where: {
+          id: accountId,
+        },
+        data: {
+          accountName: accountName,
+          currency: currency,
+          accountType: accountType,
+          note: note,
+        }
+      });
+    }
+    const data = await prismaUpdateAccount(accountId, accountName, currency, accountType, note)
+    .then(async (res) => {
+      await prisma.$disconnect();
+      // console.log(res);
+      return res;
+    })
+    .catch(async (err) => {
+      // console.error(e)
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+  return data;
+  },
+
   async createAccount(userId: number, accountName: string, currency: string, accountType: string, note: string | undefined) {
     async function prismaCreateAccount(userId: number, accountName: string, currency: string, accountType: string, note: string | undefined) {
       return await prisma.account.create({

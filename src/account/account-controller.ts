@@ -47,6 +47,27 @@ export default {
     }
   },
 
+  async updateAccount(req: Request, res: Response): Promise<void> {
+    try {
+      type AccountType = 'General' | 'Cash' | 'Bank Account' | 'Credit Card' | 'Electronic Money';
+      type Currency = 'USD' | 'JYP' | 'IDR' | 'SGD' | 'EUR' | 'GBP' | 'AUD' | 'NZD' | 'HKD' | 'CHF' | 'CAD' | 'CNH'
+  
+      interface NewAccountData {
+        accountId: number,
+        accountName: string,
+        currency: Currency,
+        accountType: AccountType,
+        note?: string | undefined,
+      }
+  
+      const { accountId, accountName, currency, accountType, note }: NewAccountData = req.body;
+      accountModel.updateAccount(accountId, accountName, currency, accountType, note);
+      res.status(204).send("Account updated");
+    } catch {
+      res.status(400).send("Cannot update account");
+    }
+  },
+  
   async createAccount(req: Request, res: Response): Promise<void> {
     try {
       type AccountType = 'General' | 'Cash' | 'Bank Account' | 'Credit Card' | 'Electronic Money';
@@ -69,7 +90,7 @@ export default {
       // console.log("account type", accountType);
       // console.log(note);
 
-      accountModel.createAccount(userId, accountName, currency, accountType, note)
+      accountModel.createAccount(userId, accountName, currency, accountType, note);
       
       res.status(201).send("Account created");
     } catch {

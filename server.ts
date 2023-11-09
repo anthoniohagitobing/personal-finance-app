@@ -21,10 +21,10 @@ app.use(cors());
 
 // ENDPOINTS
 // Test
-const age: number = 20;
-app.get('/', (req: Request, res: Response) => {
-  res.send(`Express + TypeScript Server + test4: ${age}`);
-});
+// const age: number = 20;
+// app.get('/', (req: Request, res: Response) => {
+//   res.send(`Express + TypeScript Server + test4: ${age}`);
+// });
 
 // User
 app.get('/user/:email', userController.getUser);
@@ -52,6 +52,7 @@ app.post('/account', accountController.createAccount);
   // to access: http://localhost:8080/account/
   // body, raw, json
   // ex: {userId: 1, accountName: "accountName", currency: "currency", accountType: "accountType", note: "note"};
+app.put('/account, accountController.editAccount');
 
 // Record 
 app.post('/record-income-expense', recordIncomeExpenseController.createRecordIncomeExpense);

@@ -18,16 +18,9 @@ export default {
       }
 
       const { accountId, transactionType, title, dateTime, category, inputType, amount }: NewRecordIncomeExpense = req.body;
-      console.log(accountId, transactionType, title, dateTime, category, inputType, amount);
+      // console.log(accountId, transactionType, title, dateTime, category, inputType, amount);
 
-      recordIncomeExpenseModel.createRecordIncomeExpense(accountId, transactionType, title, dateTime, category, inputType, amount)
-        .then(async (res) => {
-          await prisma.$disconnect();
-        })
-        .catch(async (err) => {
-          await prisma.$disconnect();
-          process.exit(1);
-        });
+      recordIncomeExpenseModel.createRecordIncomeExpense(accountId, transactionType, title, dateTime, category, inputType, amount);
 
       res.status(201).send("Record created");
     } catch {

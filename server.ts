@@ -23,7 +23,7 @@ app.use(cors());
 // Test
 const age: number = 20;
 app.get('/', (req: Request, res: Response) => {
-  res.send(`Express + TypeScript Server + test1: ${age}`);
+  res.send(`Express + TypeScript Server + test4: ${age}`);
 });
 
 // User
@@ -38,13 +38,17 @@ app.post('/user', userController.createUser);
   // ex: {email: "testemail", firstName: "firstname", lastName: "lastname"}
 
 // Account
-app.get('/account/:userId', accountController.getAllAccounts);
+app.get('/account/:accountId', accountController.getAccount);
+app.get('/accounts/:userId', accountController.getAllAccounts);
   // to access: http://localhost:8080/account/1
   // this has parameter "userId" that must be specified
   // this will return all account belonging to an account
   // will return an array of objects containing the account id, account name, currency, account type
   // ex: {id:31, email:"client1@gmail.com", firstName:"firstname123", lastName:"lastname123"}
 app.post('/account', accountController.createAccount);
+// app.post('/account', (req, res) => {
+//   console.log(req.body);
+// });
   // to access: http://localhost:8080/account/
   // body, raw, json
   // ex: {userId: 1, accountName: "accountName", currency: "currency", accountType: "accountType", note: "note"};

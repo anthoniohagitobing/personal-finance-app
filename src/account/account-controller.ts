@@ -1,11 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import express, { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 import accountModel from "./account-model";
 
 import recordIncomeExpenseModel from '../record/record-income-expense-model';
 import { Decimal } from '@prisma/client/runtime/library';
-
-import allRecordsController from '../record/all-records-controller';
 
 const prisma = new PrismaClient();
 
@@ -23,25 +21,27 @@ export default {
       const userId: number = Number(req.params.userId);
       // console.log(userId);
       const accounts: Account[] = await accountModel.getAllAccounts(userId)
-        .then(async (res) => {
-          await prisma.$disconnect();
-          // console.log(res);
-          return res;
-        })
-        .catch(async (err) => {
-          // console.error(e)
-          await prisma.$disconnect();
-          process.exit(1);
-        });
       // console.log(accounts);
       
       for (const account of accounts) {
-        const balance = await allRecordsController.getBalance(account.id);
+        // const balance = await allRecordsController.getBalance(account.id);
+        const balance = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(account.id);
         account["balance"] = balance;
       }
       // console.log(accounts);
 
       res.status(200).send(JSON.stringify(accounts));
+    } catch {
+      res.status(500).send("Failed to get user");
+    }
+  },
+
+  async getAccount(req: Request, res: Response): Promise<void> {
+    try {
+      const accountId: number = Number(req.params.accountId);
+      const data = await accountModel.getAccount(accountId);
+
+      res.status(200).send(JSON.stringify(data));
     } catch {
       res.status(500).send("Failed to get user");
     }
@@ -62,14 +62,14 @@ export default {
 
       const { userId, accountName, currency, accountType, note }: NewAccountData = req.body;
 
+      // console.log(userId);
+      // console.log(typeof userId);
+      // console.log(accountName);
+      // console.log("currency", currency);
+      // console.log("account type", accountType);
+      // console.log(note);
+
       accountModel.createAccount(userId, accountName, currency, accountType, note)
-        .then(async (res) => {
-          await prisma.$disconnect();
-        })
-        .catch(async (err) => {
-          await prisma.$disconnect();
-          process.exit(1);
-        });
       
       res.status(201).send("Account created");
     } catch {

@@ -8,17 +8,7 @@ export default {
   async getUser(req: Request, res: Response): Promise<void> {
     try {
       const email: string = req.params.email
-      const data = await userModel.getUser(email)
-        .then(async (res) => {
-          await prisma.$disconnect();
-          // console.log(res);
-          return res;
-        })
-        .catch(async (err) => {
-          // console.error(e)
-          await prisma.$disconnect();
-          process.exit(1);
-        });
+      const data = await userModel.getUser(email);
 
       res.status(200).send(JSON.stringify(data));
     } catch {
@@ -36,16 +26,7 @@ export default {
 
       const { email, firstName, lastName }: user = req.body;
 
-      userModel.createUser(email, firstName, lastName)
-        .then(async (res) => {
-          await prisma.$disconnect();
-          // console.log(res);
-        })
-        .catch(async (err) => {
-          // console.error(e)
-          await prisma.$disconnect();
-          process.exit(1);
-        });
+      userModel.createUser(email, firstName, lastName);
 
       res.status(201).send("User created in backend database");
     } catch {

@@ -20,17 +20,7 @@ export default {
       // console.log(req.params.accountId);
       const accountId: number = Number(req.params.accountId);
       // console.log(accountId);
-      const data: AllRecords[] = await recordIncomeExpenseModel.getAllRecordIncomeExpense(accountId)
-        .then(async (res) => {
-          await prisma.$disconnect();
-          // console.log(res);
-          return res;
-        })
-        .catch(async (err) => {
-          // console.error(e)
-          await prisma.$disconnect();
-          process.exit(1);
-        });
+      const data: AllRecords[] = await recordIncomeExpenseModel.getAllRecordIncomeExpense(accountId);
 
       res.status(200).send(JSON.stringify(data));
     } catch {
@@ -38,18 +28,18 @@ export default {
     }
   },
 
-  async getBalance(accountId: number) {
-    const sumObject = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(accountId)
-      .then(async (res) => {
-        await prisma.$disconnect();
-        return res;
-      })
-      .catch(async (err) => {
-        await prisma.$disconnect();
-        process.exit(1);
-      });
-    // console.log(sumObject);
-    if (sumObject[0]) return sumObject[0]._sum.amount;
-    else return 0;
-  },
+  // async getBalance(accountId: number) {
+  //   const sumObject = await recordIncomeExpenseModel.getNetChangeRecordIncomeExpense(accountId)
+  //     .then(async (res) => {
+  //       await prisma.$disconnect();
+  //       return res;
+  //     })
+  //     .catch(async (err) => {
+  //       await prisma.$disconnect();
+  //       process.exit(1);
+  //     });
+  //   // console.log(sumObject);
+  //   if (sumObject[0]) return sumObject[0]._sum.amount;
+  //   else return 0;
+  // },
 }

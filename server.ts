@@ -17,7 +17,6 @@ dotenv.config({path: "./.env"});
 // USING MIDDLEWARE
 app.use(express.json());
 app.use(cors());
-// test update
 
 // ENDPOINTS
 // Test
@@ -67,5 +66,5 @@ app.get('/all-records/:accountId', allRecordsController.getAllRecords);
   // ex: {id:31, email:"client1@gmail.com", firstName:"firstname123", lastName:"lastname123"}
 
 // INITIATE SERVER
-const PORT: string = process.env.PORT || "8000";
+const PORT: string = process.env.PORT || "8080";
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}`));

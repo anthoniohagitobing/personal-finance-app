@@ -25,6 +25,7 @@ export default {
       }
 
       const { email, firstName, lastName }: user = req.body;
+      // console.log(email, firstName, lastName);
 
       userModel.createUser(email, firstName, lastName);
 

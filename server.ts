@@ -20,10 +20,10 @@ app.use(cors());
 
 // ENDPOINTS
 // Test
-// const age: number = 20;
-// app.get('/', (req: Request, res: Response) => {
-//   res.send(`Express + TypeScript Server + test4: ${age}`);
-// });
+const age: number = 20;
+app.get('/', (req: Request, res: Response) => {
+  res.send(`Express + TypeScript Server + test4: ${age}`);
+});
 
 // User
 app.get('/user/:email', userController.getUser);
